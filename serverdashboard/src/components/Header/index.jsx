@@ -33,7 +33,7 @@ const Header = () => {
           <Modal.Title>Server Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ServerAddForm />
+          <ServerAddForm modalClose={handleClose} />
         </Modal.Body>
       </Modal>
       <Navbar
@@ -58,7 +58,7 @@ const Header = () => {
                   Add Server
                 </Button>
               </Nav.Link>
-              <Nav.Link style={{ marginTop: "-15px" }}>
+              {/* <Nav.Link style={{ marginTop: "-15px" }}>
                 <Button
                   variant="info"
                   onClick={handleShow}
@@ -66,8 +66,8 @@ const Header = () => {
                 >
                   Add User
                 </Button>
-              </Nav.Link>
-              <Nav.Link style={{ marginTop: "-15px" }}>
+              </Nav.Link> */}
+              {/* <Nav.Link style={{ marginTop: "-15px" }}>
                 <Button
                   variant="danger"
                   onClick={handleLogout}
@@ -75,7 +75,7 @@ const Header = () => {
                 >
                   Logout
                 </Button>
-              </Nav.Link>
+              </Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

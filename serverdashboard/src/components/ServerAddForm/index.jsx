@@ -3,35 +3,33 @@ import { Form, Row, Col, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { client } from "../AxiosInstance";
-const ServerAddForm = () => {
+import { useSelector, useDispatch } from "react-redux";
+import { getAllServer } from "../../redux/actions/servers";
+const ServerAddForm = (props) => {
+  const dispatch = useDispatch();
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [serverName, setServerName] = React.useState("");
   const [hardwareConfig, setHardwareConfig] = React.useState("");
   const [assignedTo, setAssignedTo] = React.useState("");
-  const [status, setStatus] = React.useState("");
 
   const addServer = async () => {
     const response = await client
-      .post(
-        "/server",
-        {
-          servers: [
-            {
-              name: serverName,
-              assigned_to: assignedTo,
-              assigned_from: startDate,
-              assigned_till: endDate,
-              config: hardwareConfig,
-            },
-          ],
-        }
-        // {
-        //   headers: { Authorization: `Bearer ${accessToken}` },
-        // }
-      )
+      .post("/server", {
+        servers: [
+          {
+            name: serverName,
+            assigned_to: assignedTo,
+            assigned_from: startDate,
+            assigned_till: endDate,
+            config: hardwareConfig,
+          },
+        ],
+      })
       .then((res) => {
-        // setOrderItems(res.data.content);
+        client.get("/server").then((response) => {
+          dispatch(getAllServer(response.data));
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -89,19 +87,6 @@ const ServerAddForm = () => {
               onChange={(e) => setAssignedTo(e.target.value)}
             />
           </Form.Group>
-
-          <Form.Group as={Col} controlId="formStatus">
-            <Form.Label>State</Form.Label>
-            <Form.Select
-              defaultValue="Choose..."
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="free">FREE</option>
-              <option value="allocated">ALLOCATED</option>
-              <option value="down">DOWN</option>
-            </Form.Select>
-          </Form.Group>
         </Row>
         <Button
           variant="primary"
@@ -109,6 +94,7 @@ const ServerAddForm = () => {
           style={{ marginTop: "24px" }}
           onClick={() => {
             addServer();
+            props.modalClose();
           }}
         >
           Add Server

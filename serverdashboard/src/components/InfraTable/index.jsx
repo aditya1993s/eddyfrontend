@@ -3,6 +3,8 @@ import Header from "../Header";
 import MaterialTable from "material-table";
 import tableIcons from "../MaterialTableIcons";
 import { client } from "../AxiosInstance";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllServer } from "../../redux/actions/servers";
 
 const columns = [
   {
@@ -70,15 +72,45 @@ const columns = [
       fontweight: 600,
       border: "1px solid",
     },
+    render: (rowData) => (
+      <p>
+        {new Date(rowData.assigned_till) > new Date() ? (
+          <div
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            Allocated
+          </div>
+        ) : (
+          <div
+            style={{
+              backgroundColor: "red",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            Expired
+          </div>
+        )}
+      </p>
+    ),
   },
 ];
 const InfraTable = () => {
-  const [servers, setServers] = React.useState([]);
+  const dispatch = useDispatch();
+  const servers = useSelector((state) => state.servers.servers);
   React.useEffect(() => {
     client.get("/server").then((response) => {
-      setServers(response.data.servers);
+      dispatch(getAllServer(response.data));
     });
   }, []);
+  servers?.map((server) => {
+    server.assigned_from = new Date(server.assigned_from).toString();
+    server.assigned_till = new Date(server.assigned_till).toString();
+  });
   return (
     <>
       <Header />
