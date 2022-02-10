@@ -45,18 +45,32 @@ const ServerAddForm = (props) => {
             placeholder="Server Name"
             value={serverName}
             onChange={(e) => setServerName(e.target.value)}
+            style={{ borderRadius: "20px" }}
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formHardwareConfig">
-          <Form.Label>Hardware Config</Form.Label>
-          <Form.Control
-            placeholder="Hardware Config"
-            value={hardwareConfig}
-            onChange={(e) => setHardwareConfig(e.target.value)}
-          />
-        </Form.Group>
-
+        <Row classname="mb-3">
+          <Form.Group as={Col} controlId="formHardwareConfig">
+            <Form.Label>Hardware Config</Form.Label>
+            <Form.Control
+              placeholder="Hardware Config"
+              value={hardwareConfig}
+              onChange={(e) => setHardwareConfig(e.target.value)}
+              style={{ borderRadius: "20px" }}
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="formAssignedTo">
+            <Form.Label>Assigned To</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Assigned To"
+              value={assignedTo}
+              onChange={(e) => setAssignedTo(e.target.value)}
+              style={{ borderRadius: "20px" }}
+            />
+          </Form.Group>
+        </Row>
+        <div className="mb-3"></div>
         <Row classname="mb-3">
           <Form.Group as={Col} controlId="formAllocatedFrom">
             <Form.Label>Allocated From</Form.Label>
@@ -64,6 +78,7 @@ const ServerAddForm = (props) => {
               selected={startDate}
               value={startDate.getDate()}
               onChange={(date) => setStartDate(date)}
+              className="datePickerInput"
             />
           </Form.Group>
 
@@ -73,22 +88,12 @@ const ServerAddForm = (props) => {
               selected={endDate}
               value={endDate}
               onChange={(date) => setEndDate(date)}
-            />
-          </Form.Group>
-        </Row>
-
-        <Row classname="mb-3">
-          <Form.Group as={Col} controlId="formAssignedTo">
-            <Form.Label>Assigned To</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Assigned To"
-              value={assignedTo}
-              onChange={(e) => setAssignedTo(e.target.value)}
+              className="datePickerInput"
             />
           </Form.Group>
         </Row>
         <Button
+          className="buttonCenterHorizontal borderRadius"
           variant="primary"
           type="button"
           style={{ marginTop: "24px" }}

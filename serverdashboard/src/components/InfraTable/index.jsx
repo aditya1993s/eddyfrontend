@@ -100,6 +100,12 @@ const columns = [
   },
 ];
 const InfraTable = () => {
+  var options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   const dispatch = useDispatch();
   const servers = useSelector((state) => state.servers.servers);
   React.useEffect(() => {
@@ -108,8 +114,14 @@ const InfraTable = () => {
     });
   }, []);
   servers?.map((server) => {
-    server.assigned_from = new Date(server.assigned_from).toString();
-    server.assigned_till = new Date(server.assigned_till).toString();
+    server.assigned_from = new Date(server.assigned_from).toLocaleDateString(
+      "en-US",
+      options
+    );
+    server.assigned_till = new Date(server.assigned_till).toLocaleDateString(
+      "en-US",
+      options
+    );
   });
   return (
     <>
